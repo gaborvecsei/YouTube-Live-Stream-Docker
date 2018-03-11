@@ -1,0 +1,14 @@
+version: '3'
+services:
+  my_youtube_stream:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        youtube_live_key: <YOUR_YOUTUBE_LIVE_STREAM_KEY>
+    image: youtube_stream
+    container_name: my_youtube_stream
+    volumes:
+      - ./code:/code
+    devices:
+      - /dev/video0:/dev/video0
