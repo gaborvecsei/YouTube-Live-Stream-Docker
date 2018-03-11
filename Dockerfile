@@ -21,6 +21,4 @@ RUN apt-get -qy install libraspberrypi-bin && rm -rf /var/lib/apt/lists/*
 WORKDIR /code
 RUN rm -rf /root/FFmpeg
 
-ARG youtube_live_key
-
-ENTRYPOINT ["/code/stream_to_youtube.sh", "$youtube_live_key"]
+ENTRYPOINT /code/stream_to_youtube.sh

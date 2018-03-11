@@ -4,11 +4,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        youtube_live_key: <YOUR_YOUTUBE_LIVE_STREAM_KEY>
     image: youtube_stream
     container_name: my_youtube_stream
     volumes:
       - ./code:/code
+    environment:
+      - youtube_live_key=<YOUR_YOUTUBE_LIVE_STREAM_KEY>
     devices:
       - /dev/video0:/dev/video0
