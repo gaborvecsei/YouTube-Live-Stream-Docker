@@ -1,14 +1,36 @@
 version: '3'
+
 services:
-  my_youtube_stream:
+  youtube_stream_rest_api:
     build:
-      context: .
+      context: ./youtube_stream_image
       dockerfile: Dockerfile
-    image: youtube_stream
-    container_name: my_youtube_stream
+    image: youtube_stream_rest_api
+    container_name: youtube_stream_rest_api
     volumes:
-      - ./code:/code
+      - ./youtube_stream_image/code:/code
+    ports:
+      - 5000:5000
     environment:
       - YOUTUBE_LIVE_KEY=<YOUR_YOUTUBE_LIVE_STREAM_KEY>
     devices:
       - /dev/video0:/dev/video0
+    entrypoint:
+      - python3
+      - /code/stream_rest_api.py
+    tty: true
+  stream_app:
+    build:
+      context: ./stream_app_image
+      dockerfile: Dockerfile
+    image: stream_app
+    container_name: stream_app
+    volumes:
+      - ./stream_app_image/code:/code
+    network_mode: "host"
+    depends_on:
+      - youtube_stream_rest_api
+    entrypoint:
+      - python3
+      - /code/start_app.py
+    tty: true
