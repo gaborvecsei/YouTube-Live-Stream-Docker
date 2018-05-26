@@ -1,5 +1,7 @@
 # Youtube Live Stream with Docker
 
+![logo](art/live_stream_youtube_docker_logo.png)
+
 With this dockerized app, you can use a webcam to stream live video to YouTube.
 
 It was developer for Raspberry Pi, but of course it works with any type of HW as long as it supports Docker.
