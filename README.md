@@ -16,9 +16,9 @@ if it's present at your network, the stream will shut down automatically. If it'
                 |                yes+---->stop
                 |                ^        stream
                 |                |
-                +                +
+                v                +
 start +-----> scan devices +---> is whitelisted MAC
-                +                present?
+                ^                present?
                 |                +
                 |                |
                 |                v
@@ -50,11 +50,22 @@ start +-----> scan devices +---> is whitelisted MAC
 
 ## Start
 
-- `sudo docker-compose up`
+- `sudo docker-compose up -d`
+
+(For logs you can use `sudo docker-compose logs` or inside the `code` (both of the docker images) folders you can find the log files)
 
 ## Stop
 
 - `sudo docker-compose down`
+
+## TODO
+
+- [x] device scanning for automatic streamin
+- [ ] logging to DB when was the stream live, which device, etc...
+- [ ] easily switch to "basic mode". When there is no device scan, it streams when I start it.
+- [ ] easily editable `csv` for whitelisting
+- [ ] comments
+- [ ] send message when stream started/stopped
 
 ## About
 
