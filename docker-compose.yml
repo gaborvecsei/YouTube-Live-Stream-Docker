@@ -9,6 +9,6 @@ services:
     volumes:
       - ./code:/code
     environment:
-      - youtube_live_key=<YOUR_YOUTUBE_LIVE_STREAM_KEY>
+      - YOUTUBE_LIVE_KEY=<YOUR_YOUTUBE_LIVE_STREAM_KEY>
     devices:
       - /dev/video0:/dev/video0

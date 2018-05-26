@@ -10,7 +10,7 @@
     - `git clone https://github.com/gaborvecsei/RaspberryPi-Youtube-Live-Stream.git`
     - go inside the folder `cd RaspberryPi-Youtube-Live-Stream`
 4. Edit `docker-compose.yml`
-    - Change `youtube_live_key` to your personal youtube live stream key which you can find at `https://www.youtube.com/live_dashboard`
+    - Change `YOUTUBE_LIVE_KEY` to your personal youtube live stream key which you can find at `https://www.youtube.com/live_dashboard`
     - Under `devices` change the host mapping if necessary. (By default it uses the `video0`).
       - For example if you'd like to use `video1` device than change it to: `/dev/video1:/dev/video0`
       
