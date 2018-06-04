@@ -15,8 +15,7 @@ app.logger.setLevel(logging.INFO)
 youtube_stream = YoutubeStream()
 
 
-def response(code, msg):
-    status_code = code
+def response(status_code, msg):
     message = {
         'status_code': status_code,
         'message': msg
@@ -48,10 +47,10 @@ def stop_stream():
     app.logger.info("Stopping youtube stream")
     try:
         youtube_stream.stop_stream()
+        return response(200, "Streaming successfully stopped")
     except Exception as e:
         app.logger.error("Error when stopping stream: {0}".format(e))
         return response(404, "Error: {0}".format(e))
-    return response(200, "Streaming successfully stopped")
 
 
 if __name__ == '__main__':

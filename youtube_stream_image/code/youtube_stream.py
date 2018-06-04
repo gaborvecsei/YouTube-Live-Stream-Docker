@@ -24,6 +24,11 @@ class YoutubeStream:
         self.process.kill()
         self.process = None
 
+    def force_stop_stream(self):
+        command = ["pkill", "-f", "avconv"]
+        subprocess.check_call(command)
+        self.process = None
+
     def get_process_info(self):
         _status_key = "status"
         _pid_key = "pid"
