@@ -25,19 +25,23 @@ class YoutubeStream:
         self.process = None
 
     def force_stop_stream(self):
-        command = ["pkill", "-f", "avconv"]
+        command = ["kill", "-KILL", str(self.process.pid)]
         subprocess.check_call(command)
         self.process = None
 
-    def get_process_info(self):
-        _status_key = "status"
-        _pid_key = "pid"
+    def check_process_health(self):
+        if not self.is_stream_alive():
+            if self.process is not None:
+                # If there was a return code and the process obj is not None
+                # that means the process stopped (connection reset by peer, etc...) so we need to
+                # "reset" the process
+                self.process = None
 
-        status_dict = {_status_key: "not running", _pid_key: "-1"}
-        if self.process is None:
-            return status_dict
-
-        status_dict[_status_key] = "running"
-        status_dict[_pid_key] = self.process.pid
-
-        return status_dict
+    def is_stream_alive(self):
+        if self.process is not None:
+            return_code = self.process.poll()
+            if return_code is not None:
+                return False
+            else:
+                return True
+        return False

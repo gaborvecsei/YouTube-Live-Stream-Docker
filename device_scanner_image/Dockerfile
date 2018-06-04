@@ -13,4 +13,4 @@ RUN apt-get -q update && \
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
-ENTRYPOINT "python3 /code/start_app.py"
+ENTRYPOINT "python3 /code/device_scan_rest_api.py"

@@ -27,8 +27,25 @@ services:
     container_name: device_scanner
     volumes:
       - ./device_scanner_image/code:/code
+    ports:
+      - 5001:5001
     network_mode: "host"
     entrypoint:
       - python3
       - /code/device_scan_rest_api.py
+    tty: true
+  master_app:
+    build:
+      context: ./master_app_image
+      dockerfile: master_app_image/Dockerfile
+    image: master_app
+    container_name: master_app
+    volumes:
+      - ./master_app_image/code:/code
+    entrypoint:
+      - python3
+      - /code/start_app.py
+    depends_on:
+      - device_scan_rest_api
+      - youtube_stream_rest_api
     tty: true
