@@ -22,7 +22,7 @@ services:
   device_scan_rest_api:
     build:
       context: ./device_scanner_image
-      dockerfile: device_scanner_image/Dockerfile
+      dockerfile: Dockerfile
     image: device_scanner_rest_api
     container_name: device_scanner
     volumes:
@@ -37,7 +37,7 @@ services:
   master_app:
     build:
       context: ./master_app_image
-      dockerfile: master_app_image/Dockerfile
+      dockerfile: Dockerfile
     image: master_app
     container_name: master_app
     volumes:

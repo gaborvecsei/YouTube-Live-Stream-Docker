@@ -1,8 +1,5 @@
 FROM debian:jessie
 
-ADD code /code
-WORKDIR /code
-
 RUN apt-get -q update && \
         apt-get install -qy \
                 python3 \
@@ -11,6 +8,4 @@ RUN apt-get -q update && \
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
-WORKDIR /code
-
-ENTRYPOINT "python3 /code/start_app.py"
+ENTRYPOINT "/bin/bash"
