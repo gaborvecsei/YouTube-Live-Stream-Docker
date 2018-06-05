@@ -10,7 +10,7 @@ services:
     volumes:
       - ./youtube_stream_image/code:/code
     ports:
-      - 5000:5000
+      - 8888:8888
     environment:
       - YOUTUBE_LIVE_KEY=<YOUR_YOUTUBE_LIVE_STREAM_KEY>
     devices:
@@ -28,7 +28,7 @@ services:
     volumes:
       - ./device_scanner_image/code:/code
     ports:
-      - 5001:5001
+      - 8887:8887
     network_mode: "host"
     entrypoint:
       - python3
@@ -42,6 +42,7 @@ services:
     container_name: master_app
     volumes:
       - ./master_app_image/code:/code
+    network_mode: "host"
     entrypoint:
       - python3
       - /code/start_app.py

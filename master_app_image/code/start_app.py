@@ -2,8 +2,8 @@ import requests
 import logging
 import time
 
-BASE_STREAM_API_URL = "http://localhost:5000/youtube_stream_api"
-BASE_DEVICE_SCANNER_API_URL = "http://localhost:5001/device_scan_api"
+BASE_STREAM_API_URL = "http://localhost:8888/youtube_stream_api"
+BASE_DEVICE_SCANNER_API_URL = "http://localhost:8887/device_scan_api"
 
 # These are the MAC addresses which if present at the network the streaming should stop
 STOP_WHEN_PRESENT_MAC_DICT = {"00:11:22:aa:33:bb": "gabor_phone",
