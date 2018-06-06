@@ -39,6 +39,7 @@ def scan_for_whitelisted_devices():
 
     response_json = response.json()
 
+    # The file can be update at any time so we need to perform this at every scanning
     whitelist_device_dict = get_whitelisted_devices_dict()
     whitelist_device_MACs = list(whitelist_device_dict.keys())
 
