@@ -2,7 +2,6 @@ FROM debian:jessie
 
 RUN apt-get -q update && \
         apt-get install -qy \
-                libav-tools \
                 python3 \
                 python3-pip
 

@@ -15,8 +15,7 @@ app.logger.setLevel(logging.INFO)
 youtube_stream = YoutubeStream()
 
 
-def response(code, msg):
-    status_code = code
+def response(status_code, msg):
     message = {
         'status_code': status_code,
         'message': msg
@@ -30,6 +29,24 @@ def response(code, msg):
 def index():
     app.logger.info("Is this the real life? Or is this just fantasy?")
     return "Youtube Strem API"
+
+
+@app.route("/youtube_stream_api/alive", methods=["GET", "POST"])
+def is_stream_alive():
+    app.logger.info("Getting info about streaming")
+    is_alive = youtube_stream.is_stream_alive()
+
+    resp = jsonify({"alive": is_alive})
+    resp.status_code = 200
+
+    return resp
+
+
+@app.route("/youtube_stream_api/check_health", methods=["GET", "POST"])
+def check_stream_health():
+    app.logger.info("Checking process health")
+    youtube_stream.check_process_health()
+    return response(200, "Streaming health is checked")
 
 
 @app.route("/youtube_stream_api/start", methods=["GET", "POST"])
@@ -48,11 +65,11 @@ def stop_stream():
     app.logger.info("Stopping youtube stream")
     try:
         youtube_stream.stop_stream()
+        return response(200, "Streaming successfully stopped")
     except Exception as e:
         app.logger.error("Error when stopping stream: {0}".format(e))
         return response(404, "Error: {0}".format(e))
-    return response(200, "Streaming successfully stopped")
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=8888, debug=True, threaded=True)

@@ -6,11 +6,11 @@ services:
       context: ./youtube_stream_image
       dockerfile: Dockerfile
     image: youtube_stream_rest_api
-    container_name: youtube_stream_rest_api
+    container_name: youtube_stream
     volumes:
       - ./youtube_stream_image/code:/code
     ports:
-      - 5000:5000
+      - 8888:8888
     environment:
       - YOUTUBE_LIVE_KEY=<YOUR_YOUTUBE_LIVE_STREAM_KEY>
     devices:
@@ -19,18 +19,34 @@ services:
       - python3
       - /code/stream_rest_api.py
     tty: true
-  stream_app:
+  device_scan_rest_api:
     build:
-      context: ./stream_app_image
+      context: ./device_scanner_image
       dockerfile: Dockerfile
-    image: stream_app
-    container_name: stream_app
+    image: device_scanner_rest_api
+    container_name: device_scanner
     volumes:
-      - ./stream_app_image/code:/code
+      - ./device_scanner_image/code:/code
+    ports:
+      - 8887:8887
     network_mode: "host"
-    depends_on:
-      - youtube_stream_rest_api
+    entrypoint:
+      - python3
+      - /code/device_scan_rest_api.py
+    tty: true
+  master_app:
+    build:
+      context: ./master_app_image
+      dockerfile: Dockerfile
+    image: master_app
+    container_name: master_app
+    volumes:
+      - ./master_app_image/code:/code
+    network_mode: "host"
     entrypoint:
       - python3
       - /code/start_app.py
+    depends_on:
+      - device_scan_rest_api
+      - youtube_stream_rest_api
     tty: true
