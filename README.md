@@ -42,7 +42,7 @@ start +-----> scan devices +---> is whitelisted MAC
     - Under `devices` change the host mapping if necessary. (By default it uses the `video0`).
       - For example if you'd like to use `video1` device than change it to: `/dev/video1:/dev/video0`
 5. Whitelist device MAC addresses
-    - Inside `stream_app_image/code/start_app.py` edit the variable: `STOP_WHEN_PRESENT_MAC_DICT`
+    - Inside `master_app_image/code/start_app.py` edit the variable: `STOP_WHEN_PRESENT_MAC_DICT`
     - This dict is responsible for keeping safe mac addresses, so when this device is present based on
     `arp-scan` or `nmap` we know, we can shut down the stream
 6. YouTube Private Settings
@@ -52,15 +52,38 @@ start +-----> scan devices +---> is whitelisted MAC
 
 - `sudo docker-compose up -d`
 
-(For logs you can use `sudo docker-compose logs` or inside the `code` (both of the docker images) folders you can find the log files)
+(For logs you can use `sudo docker-compose logs` or inside the `code` folders you can find the log files)
 
 ## Stop
 
 - `sudo docker-compose down`
 
-## TODO
+## Serives (Containers)
+
+- Device Scanner
+    - Responsible to scan the devices in the local network (*localhost*)
+    - Rest Api:
+        ```
+        GET, POST - localhost:8887/device_scan_api/scan
+        result: {"device_macs": ["00:11:22:33:44:55", ...}
+        ```
+- YouTube Stream
+    - With this we can start or stop a live stream
+    - Rest Api:
+        ```
+        GET, POST - localhost:8888/youtube_stream_api/start
+        GET, POST - localhost:8888/youtube_stream_api/stop
+        GET, POST - localhost:8888/youtube_stream_api/check_health
+        GET, POST - localhost:8888/youtube_stream_api/alive
+        ```
+- Master App
+    - This is the main container which uses the above services to detect whitelisted devices and decide to start or
+    stop the live streaming
+
+## todo
 
 - [x] device scanning for automatic streamin
+- [x] master - feature architecture
 - [ ] logging to DB when was the stream live, which device, etc...
 - [ ] easily switch to "basic mode". When there is no device scan, it streams when I start it.
 - [ ] easily editable `csv` for whitelisting
