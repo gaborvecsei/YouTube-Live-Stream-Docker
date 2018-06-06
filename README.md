@@ -29,27 +29,26 @@ start +-----> scan devices +---> is whitelisted MAC
 ```
 
 ## Setup
-
-- Install Docker & Close Repo:
-    1. Install `Docker` 🐳
-        - `curl -sSL https://get.docker.com | sh`
-    2. Install `docker-compose`
-        - `sudo pip install docker-compose` OR `sudo pip3 install docker-compose`
-    3. Clone this repo
-        - `git clone https://github.com/gaborvecsei/YouTube-Live-Stream-Docker.git`
-        - go inside the folder `cd Youtube-Live-Stream-Docker`
-- Configure App
-    1. Run `sudo ./base_docker_image/build_base.sh` to build the base image for the other Docker images
-    2. Edit `docker-compose.yml`
-        - Change `YOUTUBE_LIVE_KEY` to your personal youtube live stream key which you can find at `https://www.youtube.com/live_dashboard`
-        - Under `devices` change the host mapping if necessary. (By default it uses the `video0`).
-          - For example if you'd like to use `video1` device than change it to: `/dev/video1:/dev/video0`
-    3. Whitelist device MAC addresses
-        - Inside `master_app_image/code/start_app.py` edit the variable: `STOP_WHEN_PRESENT_MAC_DICT`
-        - This dict is responsible for keeping safe mac addresses, so when this device is present based on
-        `arp-scan` or `nmap` we know, we can shut down the stream
-    4. YouTube Private Settings
-        - Don't forget to set yout live stream to `private` at [YouTube Live Dashboard](https://www.youtube.com/live_dashboard)
+#### Install Docker & Clone Repo:
+1. Install `Docker` 🐳
+    - `curl -sSL https://get.docker.com | sh`
+2. Install `docker-compose`
+    - `sudo pip install docker-compose` OR `sudo pip3 install docker-compose`
+3. Clone this repo
+    - `git clone https://github.com/gaborvecsei/YouTube-Live-Stream-Docker.git`
+    - go inside the folder `cd Youtube-Live-Stream-Docker`
+#### Configure App
+1. Run `sudo ./base_docker_image/build_base.sh` to build the base image for the other Docker images
+2. Edit `docker-compose.yml`
+    - Change `YOUTUBE_LIVE_KEY` to your personal youtube live stream key which you can find at `https://www.youtube.com/live_dashboard`
+    - Under `devices` change the host mapping if necessary. (By default it uses the `video0`).
+        - For example if you'd like to use `video1` device than change it to: `/dev/video1:/dev/video0`
+3. Whitelist device MAC addresses
+    - Inside `master_app_image/code/start_app.py` edit the variable: `STOP_WHEN_PRESENT_MAC_DICT`
+    - This dict is responsible for keeping safe mac addresses, so when this device is present based on
+    `arp-scan` or `nmap` we know, we can shut down the stream
+4. YouTube Private Settings
+    - Don't forget to set yout live stream to `private` at [YouTube Live Dashboard](https://www.youtube.com/live_dashboard)
 
 ## Start
 
