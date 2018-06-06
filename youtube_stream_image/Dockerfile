@@ -1,12 +1,8 @@
-FROM debian:jessie
+FROM base_image:0.1.0
 
 RUN apt-get -q update && \
         apt-get install -qy \
-                libav-tools \
-                python3 \
-                python3-pip
+                libav-tools
 
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
-
-ENTRYPOINT "/bin/bash"

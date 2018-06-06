@@ -1,9 +1,11 @@
-FROM base_image:0.1.0
+FROM debian:jessie
 
 RUN apt-get -q update && \
         apt-get install -y \
-            nmap \
-            arp-scan
+            python3 \
+            python3-pip
 
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
+
+ENTRYPOINT "/bin/bash"

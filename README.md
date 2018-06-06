@@ -30,23 +30,26 @@ start +-----> scan devices +---> is whitelisted MAC
 
 ## Setup
 
-1. Install `Docker` 🐳
-    - `curl -sSL https://get.docker.com | sh`
-2. Install `docker-compose`
-    - `sudo pip install docker-compose` OR `sudo pip3 install docker-compose`
-3. Clone this repo
-    - `git clone https://github.com/gaborvecsei/YouTube-Live-Stream-Docker.git`
-    - go inside the folder `cd Youtube-Live-Stream-Docker`
-4. Edit `docker-compose.yml`
-    - Change `YOUTUBE_LIVE_KEY` to your personal youtube live stream key which you can find at `https://www.youtube.com/live_dashboard`
-    - Under `devices` change the host mapping if necessary. (By default it uses the `video0`).
-      - For example if you'd like to use `video1` device than change it to: `/dev/video1:/dev/video0`
-5. Whitelist device MAC addresses
-    - Inside `master_app_image/code/start_app.py` edit the variable: `STOP_WHEN_PRESENT_MAC_DICT`
-    - This dict is responsible for keeping safe mac addresses, so when this device is present based on
-    `arp-scan` or `nmap` we know, we can shut down the stream
-6. YouTube Private Settings
-    - Don't forget to set yout live stream to `private` at [YouTube Live Dashboard](https://www.youtube.com/live_dashboard)
+- Install Docker & Close Repo:
+    1. Install `Docker` 🐳
+        - `curl -sSL https://get.docker.com | sh`
+    2. Install `docker-compose`
+        - `sudo pip install docker-compose` OR `sudo pip3 install docker-compose`
+    3. Clone this repo
+        - `git clone https://github.com/gaborvecsei/YouTube-Live-Stream-Docker.git`
+        - go inside the folder `cd Youtube-Live-Stream-Docker`
+- Configure App
+    1. Run `sudo ./base_docker_image/build_base.sh` to build the base image for the other Docker images
+    2. Edit `docker-compose.yml`
+        - Change `YOUTUBE_LIVE_KEY` to your personal youtube live stream key which you can find at `https://www.youtube.com/live_dashboard`
+        - Under `devices` change the host mapping if necessary. (By default it uses the `video0`).
+          - For example if you'd like to use `video1` device than change it to: `/dev/video1:/dev/video0`
+    3. Whitelist device MAC addresses
+        - Inside `master_app_image/code/start_app.py` edit the variable: `STOP_WHEN_PRESENT_MAC_DICT`
+        - This dict is responsible for keeping safe mac addresses, so when this device is present based on
+        `arp-scan` or `nmap` we know, we can shut down the stream
+    4. YouTube Private Settings
+        - Don't forget to set yout live stream to `private` at [YouTube Live Dashboard](https://www.youtube.com/live_dashboard)
 
 ## Start
 
@@ -60,14 +63,14 @@ start +-----> scan devices +---> is whitelisted MAC
 
 ## Serives (Containers)
 
-- Device Scanner
+- Device Scanner :computer:
     - Responsible to scan the devices in the local network (*localhost*)
     - Rest Api:
         ```
         GET, POST - localhost:8887/device_scan_api/scan
         result: {"device_macs": ["00:11:22:33:44:55", ...}
         ```
-- YouTube Stream
+- YouTube Stream :camera:
     - With this we can start or stop a live stream
     - Rest Api:
         ```
@@ -76,7 +79,7 @@ start +-----> scan devices +---> is whitelisted MAC
         GET, POST - localhost:8888/youtube_stream_api/check_health
         GET, POST - localhost:8888/youtube_stream_api/alive
         ```
-- Master App
+- Master App :crown:
     - This is the main container which uses the above services to detect whitelisted devices and decide to start or
     stop the live streaming
 
@@ -84,6 +87,7 @@ start +-----> scan devices +---> is whitelisted MAC
 
 - [x] device scanning for automatic streamin
 - [x] master - feature architecture
+- [x] create base Dockerfile
 - [ ] logging to DB when was the stream live, which device, etc...
 - [ ] easily switch to "basic mode". When there is no device scan, it streams when I start it.
 - [ ] easily editable `csv` for whitelisting
