@@ -89,9 +89,9 @@ start +-----> scan devices +---> is whitelisted MAC
 - [x] create base Dockerfile
 - [ ] logging to DB when was the stream live, which device, etc...
 - [ ] easily switch to "basic mode". When there is no device scan, it streams when I start it.
-- [ ] easily editable `csv` for whitelisting
+- [x] easily editable `csv` for whitelisting
 - [ ] comments
-- [ ] send message when stream started/stopped
+- [ ] send (Slack, Gmail, etc...) message when stream started/stopped
 
 ## About
 

@@ -1,15 +1,12 @@
 import requests
 import logging
 import time
+import pandas as pd
 
 BASE_STREAM_API_URL = "http://localhost:8888/youtube_stream_api"
 BASE_DEVICE_SCANNER_API_URL = "http://localhost:8887/device_scan_api"
 
-# These are the MAC addresses which if present at the network the streaming should stop
-STOP_WHEN_PRESENT_MAC_DICT = {"00:11:22:aa:33:bb": "gabor_phone",
-                              "99:12:10:aa:33:bb": "mona_phone"}
-WHITELIST_MACS = list(STOP_WHEN_PRESENT_MAC_DICT.keys())
-WHITELIST_MACS = [x.lower() for x in WHITELIST_MACS]
+WHITELISTED_DEVICES_CSV_PATH = "whitelisted_devices.csv"
 
 WAIT_TIME_BETWEEN_SCANS_IN_MINUTES = 5
 
@@ -26,6 +23,13 @@ console_handler.setFormatter(logger_formatter)
 logger.addHandler(console_handler)
 
 
+def get_whitelisted_devices_dict():
+    df = pd.read_csv(WHITELISTED_DEVICES_CSV_PATH, header=0)
+    device_names = df["name"].values
+    device_macs = [x.lower() for x in df["mac"].values]
+    return {m: n for m, n in zip(device_macs, device_names)}
+
+
 def scan_for_whitelisted_devices():
     url = BASE_DEVICE_SCANNER_API_URL + "/scan"
     response = requests.get(url)
@@ -35,14 +39,18 @@ def scan_for_whitelisted_devices():
 
     response_json = response.json()
 
+    # The file can be update at any time so we need to perform this at every scanning
+    whitelist_device_dict = get_whitelisted_devices_dict()
+    whitelist_device_MACs = list(whitelist_device_dict.keys())
+
     found_device_MACs = list(response_json["device_macs"])
-    present_whitelist_device_MACs = set(found_device_MACs).intersection(set(WHITELIST_MACS))
+    present_whitelist_device_MACs = set(found_device_MACs).intersection(set(whitelist_device_MACs))
 
     if len(present_whitelist_device_MACs) <= 0:
         # There are no whitelisted devices
         return None
 
-    present_device_macs_dict = {x: STOP_WHEN_PRESENT_MAC_DICT[x] for x in present_whitelist_device_MACs}
+    present_device_macs_dict = {x: whitelist_device_dict[x] for x in present_whitelist_device_MACs}
     return present_device_macs_dict
 
 
