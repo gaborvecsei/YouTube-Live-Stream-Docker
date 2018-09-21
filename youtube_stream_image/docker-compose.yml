@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  simple_youtube_stream:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: simple_youtube_stream_image
+    container_name: simple_youtube_stream_container
+    volumes:
+      - ./code:/code
+    environment:
+      - YOUTUBE_LIVE_KEY=<YOUR_YOUTUBE_LIVE_STREAM_KEY>
+    devices:
+      - /dev/video0:/dev/video0
+    restart: unless-stopped
+    entrypoint:
+      - /bin/bash
+      - /code/simple_youtube_stream.sh
