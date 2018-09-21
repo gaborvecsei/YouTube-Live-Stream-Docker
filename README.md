@@ -4,6 +4,11 @@
 
 With this dockerized app, you can use a webcam to stream live video to YouTube
 
+- [Simple Mode](#simple-mode)
+    - [Setup Simple Mode](#setup-simple-mode)
+- [Advanced Mode](#advanced-mode)
+    - [Setup Advanved Mode](#setup-advanced-mode)
+
 ----------------------------------
 
 *It was developer for Raspberry Pi, but of course it works with any type of HW as long as it supports Docker.*
@@ -36,19 +41,19 @@ I use this mode, so I can have a "secret eye" :eyes: on my puppy, when I leave :
     - Under `devices` change the host mapping if necessary. (By default it uses the `video0`).
         - For example if you'd like to use `video1` device than change it to: `/dev/video1:/dev/video0`
 
-### Start Simple Mode
+### Start Simple Mode :ok_hand:
 
 - Go to the `youtube_stream_image` folder and then run command:
     - `sudo docker-compose up -d`
 
-### Stop Simple Mode
+### Stop Simple Mode :x:
 
 - Go to the `youtube_stream_image` folder and then run command:
     - `sudo docker-compose down`
 
 ----------------------------------
 
-## Advanced Mode (Streaming w/ device scanning)
+## Advanced Mode
 
 As I always forgot to turn on/off the stream, now it does it automatically based on the connected
 devices on your network :sparkles:.
@@ -77,20 +82,20 @@ start +-----> scan devices +---> is whitelisted MAC
 
 ### Setup Advanced Mode
 
-1. Perform the same as in [Setup Simple Mode](#Setup-Simple-Mode)
+1. Perform the same as in [Setup Simple Mode](#setup-simple-mode)
 2. Whitelist device MAC addresses
     - Edit `master_app_image/code/whitelisted_devices.csv`
       - This file is responsible for keeping safe MAC addresses, so when this device is present based on `arp-scan` or `nmap` we know, we can shut down the stream
 3. YouTube Private Settings
     - Don't forget to set yout live stream to `private` at [YouTube Live Dashboard](https://www.youtube.com/live_dashboard)
 
-### Start Advanced Mode
+### Start Advanced Mode :ok_hand:
 
 - `sudo docker-compose up -d`
 
 (For logs you can use `sudo docker-compose logs` or inside the `code` folders you can find the log files)
 
-### Stop Advanced Mode
+### Stop Advanced Mode :x:
 
 - `sudo docker-compose down`
 
